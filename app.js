@@ -1,196 +1,145 @@
-// StepPet core data model stored in memory and persisted via localStorage.
-// EXP in this MVP is effectively equal to "steps today".
-const DEFAULT_NAME = 'My Pet';
+const STORAGE_KEY = 'steppet_state_v1';
+const STAGES = [
+  { min: 0, max: 2999, emoji: '🐣', label: 'Stage 0', color: '#f3f3f3', nextThreshold: 3000 },
+  { min: 3000, max: 7499, emoji: '🐥', label: 'Stage 1', color: '#d0e7ff', nextThreshold: 7500 },
+  { min: 7500, max: 11999, emoji: '🦄', label: 'Stage 2', color: '#d8f7d4', nextThreshold: 12000 },
+  { min: 12000, max: Infinity, emoji: '🐉', label: 'Stage 3', color: '#fff4c2', nextThreshold: null }
+];
 
-const pet = {
-  exp: 0,              // total EXP for today (1 step = 1 EXP)
-  level: 1,
-  stepsToday: 0,       // steps for the current day
-  evolutionStage: 0,   // maps to EVOLUTION_EMOJIS
-  name: DEFAULT_NAME,
-  lastUpdatedDate: '', // YYYY-MM-DD string of last update
-};
+const el = id => document.getElementById(id);
 
-// LocalStorage key allows future schema migrations if needed.
-const STORAGE_KEY = 'steppet_pet_v1';
+const state = loadState();
+const today = new Date().toISOString().split('T')[0];
 
-// Emoji visual per evolution stage.
-const EVOLUTION_EMOJIS = ['🐣', '🐥', '🦄', '🐉'];
+resetForNewDay();
 
-// DOM references resolved once on load.
-const elements = {};
+const stepsToday = getStepsFromURL();
+state.stepsToday = stepsToday;
+state.exp = stepsToday;
 
-/**
- * Load pet stats from localStorage, overwriting defaults when possible.
- */
-function loadPet() {
+handleStreakUpdate();
+updateUI();
+attachHandlers();
+state.lastUpdatedDate = today;
+saveState();
+
+function getStepsFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const steps = parseInt(params.get('steps'), 10);
+  return Number.isFinite(steps) && steps >= 0 ? steps : 0;
+}
+
+function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (saved) {
-      Object.assign(pet, saved);
+    if (saved && typeof saved === 'object') {
+      return {
+        petName: saved.petName || 'Your Pet',
+        streak: saved.streak || 0,
+        lastUpdatedDate: saved.lastUpdatedDate || '',
+        stepsToday: saved.stepsToday || 0,
+        exp: saved.exp || 0
+      };
     }
-    if (!pet.name) {
-      pet.name = DEFAULT_NAME;
-    }
-    if (!pet.lastUpdatedDate) {
-      pet.lastUpdatedDate = '';
-    }
-  } catch (error) {
-    console.warn('Unable to parse saved pet state', error);
+  } catch (e) {
+    console.warn('Failed to parse saved state', e);
+  }
+  return {
+    petName: 'Your Pet',
+    streak: 0,
+    lastUpdatedDate: '',
+    stepsToday: 0,
+    exp: 0
+  };
+}
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function resetForNewDay() {
+  if (!state.lastUpdatedDate) return;
+  if (state.lastUpdatedDate !== today) {
+    state.stepsToday = 0;
+    state.exp = 0;
   }
 }
 
-/**
- * Persist the entire pet object.
- */
-function savePet() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(pet));
-}
+function handleStreakUpdate() {
+  if (state.lastUpdatedDate === today) return;
 
-/**
- * Calculate current level and evolution stage based on EXP totals.
- * In this MVP, 1 step = 1 EXP, so this is effectively step-based leveling.
- */
-function updateLevelAndEvolution() {
-  const previousLevel = pet.level;
-  const previousStage = pet.evolutionStage;
-
-  // Every 500 EXP (steps) grants one level. Level floor is 1.
-  pet.level = Math.max(1, Math.floor(pet.exp / 500) + 1);
-
-  // Map level ranges to evolution stage buckets.
-  if (pet.level >= 20) {
-    pet.evolutionStage = 3;
-  } else if (pet.level >= 10) {
-    pet.evolutionStage = 2;
-  } else if (pet.level >= 5) {
-    pet.evolutionStage = 1;
-  } else {
-    pet.evolutionStage = 0;
-  }
-
-  if (pet.level > previousLevel) {
-    setMessage(`Level up! You are now level ${pet.level}.`);
-  }
-
-  if (pet.evolutionStage > previousStage) {
-    setMessage('Your pet evolved! 🎉');
+  if (state.stepsToday > 0) {
+    state.streak += 1;
+  } else if (state.stepsToday === 0) {
+    state.streak = 0;
   }
 }
 
-/**
- * Update UI components to reflect pet state.
- */
+function determineStage(steps) {
+  return STAGES.find(stage => steps >= stage.min && steps <= stage.max) || STAGES[STAGES.length - 1];
+}
+
+function updateProgress(stage, steps) {
+  const bar = el('expBar');
+  const nextText = el('nextEvolutionText');
+  if (stage.nextThreshold === null) {
+    bar.style.width = '100%';
+    nextText.textContent = 'Max evolution reached today!';
+    return;
+  }
+  const nextThreshold = stage.nextThreshold;
+  const percent = Math.min((steps / nextThreshold) * 100, 100);
+  bar.style.width = `${percent}%`;
+  const remaining = Math.max(nextThreshold - steps, 0);
+  nextText.textContent = `Steps to next evolution: ${remaining} left`;
+}
+
 function updateUI() {
-  // progressToNextLevel: how far through the current 500-EXP block we are, as percent
-  const progressToNextLevel = (pet.exp % 500) / 5; // convert to percentage (0–100)
-  const expNeeded = Math.max(0, pet.level * 500 - pet.exp);
+  const stage = determineStage(state.stepsToday);
+  document.body.style.setProperty('--bg-color', stage.color);
 
-  elements.petEmoji.textContent = EVOLUTION_EMOJIS[pet.evolutionStage] || '🐣';
-  elements.level.textContent = pet.level;
-  elements.stepsToday.textContent = pet.stepsToday.toLocaleString();
-  elements.exp.textContent = pet.exp.toLocaleString();
-  elements.expBar.style.width = `${progressToNextLevel}%`;
-  elements.petNameDisplay.textContent = pet.name;
+  el('stepsToday').textContent = state.stepsToday;
+  el('exp').textContent = state.exp;
+  el('streakCount').textContent = `Streak: ${state.streak} days`;
+  el('petEmoji').textContent = stage.emoji;
+  el('petNameDisplay').textContent = state.petName;
+  el('evolutionStage').textContent = `${stage.label} (${stage.emoji})`;
+  el('message').textContent = getMessageForStage(stage);
 
-  if (elements.petNameInput && document.activeElement !== elements.petNameInput) {
-    elements.petNameInput.value = pet.name;
+  updateProgress(stage, state.stepsToday);
+
+  el('summaryCardPet').textContent = stage.emoji;
+  el('summaryCardName').textContent = state.petName;
+  el('summaryCardSteps').textContent = `Steps: ${state.stepsToday}`;
+  el('summaryCardStage').textContent = `${stage.label} (${stage.emoji})`;
+
+  el('petNameInput').value = state.petName;
+}
+
+function getMessageForStage(stage) {
+  switch (stage.label) {
+    case 'Stage 0':
+      return 'Keep moving! Your pet is just starting out.';
+    case 'Stage 1':
+      return 'Nice steps! Your pet is warming up.';
+    case 'Stage 2':
+      return 'Amazing! Your pet is magical now.';
+    case 'Stage 3':
+      return 'Legendary! Your pet reached its final form.';
+    default:
+      return 'Keep going!';
   }
-
-  // Because 1 step = 1 EXP in this MVP, we can talk about "steps" here.
-  elements.nextLevelText.textContent =
-    `Next Level: ${expNeeded.toLocaleString()} steps remaining`;
 }
 
-/**
- * Update message paragraph with a friendly note.
- */
-function setMessage(text) {
-  elements.message.textContent = text;
-}
-
-function handleSaveName() {
-  const desiredName = elements.petNameInput.value.trim();
-  pet.name = desiredName || DEFAULT_NAME;
-  savePet();
-  updateUI();
-  setMessage('Pet name saved!');
-}
-
-/**
- * Extract ?steps=### parameter, update pet stats, and persist.
- * For now we treat the URL param as "today's total steps from your device."
- */
-function processStepsFromURL() {
-  const url = new URL(window.location.href);
-  const newSteps = parseInt(url.searchParams.get('steps'), 10);
-
-  if (!isNaN(newSteps) && newSteps > 0) {
-    const previousSteps = pet.stepsToday || 0;
-    const delta = newSteps - previousSteps;
-
-    // Ensure we never add negative EXP; if the count goes backwards, ignore.
-    const gainedExp = Math.max(0, delta);
-
-    // Keep both stepsToday and EXP in sync for today's total.
-    pet.stepsToday = newSteps;
-    pet.exp += gainedExp;
-
-    const message =
-      gainedExp > 0
-        ? `Synced ${newSteps.toLocaleString()} steps (+${gainedExp.toLocaleString()} EXP).`
-        : `Synced ${newSteps.toLocaleString()} steps. No new steps since last update.`;
-
-    setMessage(message);
-    updateLevelAndEvolution();
-    savePet();
+function attachHandlers() {
+  el('saveNameBtn').addEventListener('click', () => {
+    const nameInput = el('petNameInput').value.trim();
+    if (nameInput.length === 0) {
+      alert('Please enter a valid name.');
+      return;
+    }
+    state.petName = nameInput;
     updateUI();
-  }
+    saveState();
+  });
 }
-
-/**
- * Reset daily stats when we detect a date change.
- * This enforces the "fresh day" loop for MVP-0.
- */
-function handleDailyReset() {
-  const today = new Date().toISOString().split('T')[0];
-
-  if (pet.lastUpdatedDate && pet.lastUpdatedDate !== today) {
-    pet.exp = 0;
-    pet.level = 1;
-    pet.stepsToday = 0;
-    pet.evolutionStage = 0;
-  }
-
-  pet.lastUpdatedDate = today;
-  savePet();
-}
-
-/**
- * Initialize DOM references and start application flow.
- */
-function init() {
-  elements.petEmoji = document.getElementById('petEmoji');
-  elements.level = document.getElementById('level');
-  elements.stepsToday = document.getElementById('stepsToday');
-  elements.exp = document.getElementById('exp');
-  elements.expBar = document.getElementById('expBar');
-  elements.message = document.getElementById('message');
-  elements.petNameDisplay = document.getElementById('petNameDisplay');
-  elements.petNameInput = document.getElementById('petNameInput');
-  elements.saveNameBtn = document.getElementById('saveNameBtn');
-  elements.nextLevelText = document.getElementById('nextLevelText');
-
-  loadPet();
-  handleDailyReset();
-  updateLevelAndEvolution();
-  updateUI();
-  processStepsFromURL();
-
-  if (elements.saveNameBtn) {
-    elements.saveNameBtn.addEventListener('click', handleSaveName);
-  }
-}
-
-// Ensure initialization occurs only after DOM is ready.
-document.addEventListener('DOMContentLoaded', init);

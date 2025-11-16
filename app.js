@@ -7,6 +7,8 @@ const STAGES = [
 ];
 
 const el = id => document.getElementById(id);
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabSections = document.querySelectorAll('.tab-section');
 
 const state = loadState();
 const today = new Date().toISOString().split('T')[0];
@@ -99,7 +101,6 @@ function updateUI() {
   document.body.style.setProperty('--bg-color', stage.color);
 
   el('stepsToday').textContent = state.stepsToday;
-  el('exp').textContent = state.exp;
   el('streakCount').textContent = `Streak: ${state.streak} days`;
   el('petEmoji').textContent = stage.emoji;
   el('petNameDisplay').textContent = state.petName;
@@ -141,5 +142,29 @@ function attachHandlers() {
     state.petName = nameInput;
     updateUI();
     saveState();
+  });
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      showTab(button.dataset.tab);
+    });
+  });
+}
+
+function showTab(tabId) {
+  tabSections.forEach(section => {
+    if (section.id === tabId) {
+      section.classList.add('active');
+    } else {
+      section.classList.remove('active');
+    }
+  });
+
+  tabButtons.forEach(button => {
+    if (button.dataset.tab === tabId) {
+      button.classList.add('active');
+    } else {
+      button.classList.remove('active');
+    }
   });
 }

@@ -24,6 +24,22 @@
   font-size: 5rem;
   position: relative;
   z-index: 1;
+  animation: pet-hop 5s infinite ease-in-out;
+  transform-origin: center bottom;
+}
+
+@keyframes pet-hop {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  85% {
+    transform: translateY(-8px) scale(1.05);
+  }
+  90% {
+    transform: translateY(2px) scale(0.97);
+  }
 }
 
 .progress-wrapper {

@@ -114,9 +114,17 @@ function processStepsFromURL() {
   const newSteps = parseInt(url.searchParams.get('steps'), 10);
 
   if (!isNaN(newSteps) && newSteps > 0) {
+    const previousSteps = pet.stepsToday || 0;
+    const delta = newSteps - previousSteps;
+
+    pet.exp += Math.max(0, delta);
     pet.stepsToday = newSteps;
-    pet.exp += newSteps;
-    setMessage(`Added ${newSteps.toLocaleString()} steps. Keep going!`);
+
+    const gainedExp = Math.max(0, delta);
+    const message = gainedExp > 0
+      ? `Synced ${newSteps.toLocaleString()} steps (+${gainedExp.toLocaleString()} EXP).`
+      : `Synced ${newSteps.toLocaleString()} steps. No new steps since last update.`;
+    setMessage(message);
     updateLevelAndEvolution();
     savePet();
     updateUI();

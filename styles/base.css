@@ -1,0 +1,57 @@
+:root {
+  --color-bg: #f4efe9;
+  --color-surface: #fff7f0;
+  --color-accent: #ffafcc;
+  --color-accent-dark: #ff7fa3;
+  --color-text: #473838;
+  --color-muted: #8d7a7a;
+  --color-progress-bg: #f5d3db;
+  --color-progress-fill: #ff9f9c;
+  --radius-large: 28px;
+  --radius-medium: 18px;
+  --radius-small: 12px;
+  --shadow-soft: 0 15px 30px rgba(149, 118, 118, 0.15);
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #ffe0d6, var(--color-bg));
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.app-header {
+  text-align: center;
+  background: var(--color-surface);
+  padding: 1.25rem;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-soft);
+}
+
+.tagline {
+  color: var(--color-muted);
+  margin: 0.35rem 0 0;
+}

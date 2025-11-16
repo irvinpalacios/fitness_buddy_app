@@ -13,55 +13,60 @@
       <p>Bring your virtual pet to life with your daily steps!</p>
     </header>
 
-    <section class="pet-display">
-      <div id="petEmoji" class="pet-emoji">🐣</div>
-      <div>
-        <div id="petNameDisplay" class="pet-name">Your Pet</div>
-        <div id="message" class="pet-message">Start walking to evolve your pet!</div>
-      </div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="homeTab">Home</button>
+      <button class="tab-btn" data-tab="profileTab">Profile</button>
+    </nav>
+
+    <section id="homeTab" class="tab-section active">
+      <section class="pet-display">
+        <div id="petEmoji" class="pet-emoji">🐣</div>
+        <div>
+          <div id="petNameDisplay" class="pet-name">Your Pet</div>
+          <div id="message" class="pet-message">Start walking to evolve your pet!</div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="stat-card">
+          <span class="label">Steps Today</span>
+          <strong id="stepsToday">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="label">Evolution Stage</span>
+          <strong id="evolutionStage">Stage 0 (🐣)</strong>
+        </div>
+        <div class="stat-card">
+          <span class="label">Streak</span>
+          <strong id="streakCount">Streak: 0 days</strong>
+        </div>
+      </section>
+
+      <section class="progress-section">
+        <div class="bar-container">
+          <div id="expBar" class="bar-fill" style="width: 0%"></div>
+        </div>
+        <p id="nextEvolutionText">Steps to next evolution: 3000 left</p>
+      </section>
     </section>
 
-    <section class="stats">
-      <div class="stat-card">
-        <span class="label">Steps Today</span>
-        <strong id="stepsToday">0</strong>
-      </div>
-      <div class="stat-card">
-        <span class="label">EXP</span>
-        <strong id="exp">0</strong>
-      </div>
-      <div class="stat-card">
-        <span class="label">Evolution Stage</span>
-        <strong id="evolutionStage">Stage 0 (🐣)</strong>
-      </div>
-      <div class="stat-card">
-        <span class="label">Streak</span>
-        <strong id="streakCount">Streak: 0 days</strong>
-      </div>
-    </section>
+    <section id="profileTab" class="tab-section">
+      <section class="name-section">
+        <label for="petNameInput">Pet Name</label>
+        <div class="name-input">
+          <input type="text" id="petNameInput" placeholder="Enter a name">
+          <button id="saveNameBtn">Save Name</button>
+        </div>
+      </section>
 
-    <section class="progress-section">
-      <div class="bar-container">
-        <div id="expBar" class="bar-fill" style="width: 0%"></div>
-      </div>
-      <p id="nextEvolutionText">Steps to next evolution: 3000 left</p>
-    </section>
-
-    <section class="name-section">
-      <label for="petNameInput">Pet Name</label>
-      <div class="name-input">
-        <input type="text" id="petNameInput" placeholder="Enter a name">
-        <button id="saveNameBtn">Save Name</button>
-      </div>
-    </section>
-
-    <section class="summary-card" id="summaryCard">
-      <div id="summaryCardPet" class="summary-pet">🐣</div>
-      <div class="summary-info">
-        <div id="summaryCardName" class="summary-name">Your Pet</div>
-        <div id="summaryCardSteps" class="summary-steps">Steps: 0</div>
-        <div id="summaryCardStage" class="summary-stage">Stage 0 (🐣)</div>
-      </div>
+      <section class="summary-card" id="summaryCard">
+        <div id="summaryCardPet" class="summary-pet">🐣</div>
+        <div class="summary-info">
+          <div id="summaryCardName" class="summary-name">Your Pet</div>
+          <div id="summaryCardSteps" class="summary-steps">Steps: 0</div>
+          <div id="summaryCardStage" class="summary-stage">Stage 0 (🐣)</div>
+        </div>
+      </section>
     </section>
   </main>
 

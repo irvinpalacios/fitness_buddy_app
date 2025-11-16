@@ -26,7 +26,7 @@
             <span id="stepsToday" class="value">0</span>
           </div>
           <div class="stat-item">
-            <span class="label">EXP</span>
+            <span class="label">EXP (today)</span>
             <span id="exp" class="value">0</span>
           </div>
         </div>
@@ -47,15 +47,20 @@
       </section>
 
       <section class="progress-section">
-        <label for="expBar">Steps to next evolution</label>
+        <label for="expBar">Steps to next level</label>
         <div class="progress-bar">
           <div id="expBar" class="progress-fill" style="width: 0%"></div>
         </div>
-        <p id="nextLevelText" class="next-level-text">Next Level: 500 EXP remaining</p>
+        <p id="nextLevelText" class="next-level-text">
+          Next Level: 500 steps remaining
+        </p>
       </section>
 
       <section class="message-section">
-        <p id="message" class="message">Your pet grows automatically as you walk!</p>
+        <p id="message" class="message">
+          Your pet grows as you walk. For now, update steps by adding
+          <code>?steps=1234</code> to the URL.
+        </p>
       </section>
     </main>
 

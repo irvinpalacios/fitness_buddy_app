@@ -28,10 +28,12 @@
     }
 
     const { count, params } = parsed;
-    const hadNoStepsYet = state.stepsToday === 0;
+    const previousSteps = state.stepsToday || 0;
+    const hadNoStepsYet = previousSteps === 0;
+    const delta = Math.max(0, count - previousSteps);
 
-    state.stepsToday += count;
-    state.exp += count;
+    state.stepsToday = count;
+    state.exp += delta;
 
     PetModule.updateEvolutionStage(state);
 
@@ -44,7 +46,7 @@
 
     document.dispatchEvent(
       new CustomEvent('stepsSynced', {
-        detail: { addedSteps: count, state },
+        detail: { addedSteps: delta, state },
       })
     );
 

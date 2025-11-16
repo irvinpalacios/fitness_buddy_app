@@ -1,12 +1,12 @@
 :root {
   --color-bg: #f4efe9;
   --color-surface: #fff7f0;
-  --color-accent: #ffafcc;
-  --color-accent-dark: #ff7fa3;
-  --color-text: #473838;
-  --color-muted: #8d7a7a;
-  --color-progress-bg: #f5d3db;
-  --color-progress-fill: #ff9f9c;
+  --color-accent: #D6A785;
+  --color-accent-dark: #C08867;
+  --color-text: #3B3B3B;
+  --color-muted: #6A6A6A;
+  --color-progress-bg: #E8D8CE;
+  --color-progress-fill: #E28C5A;
   --radius-large: 28px;
   --radius-medium: 18px;
   --radius-small: 12px;

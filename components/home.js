@@ -31,7 +31,6 @@
           <p><strong>Steps today:</strong> ${state.stepsToday}</p>
           <p><strong>Total EXP:</strong> ${state.exp}</p>
           <p><strong>Steps to evolve:</strong> ${stepsToNext}</p>
-          <small>Sync more steps using <code>?steps=1234</code> in the URL.</small>
         </div>
       </section>
     `;

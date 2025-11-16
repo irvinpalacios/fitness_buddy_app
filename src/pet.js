@@ -9,7 +9,7 @@
   ];
 
   // Emoji-based placeholders give us expressive visuals without binary assets.
-  const PET_EMOJIS = '🐣', '🐥', '🐓', '🐉'];
+  const PET_EMOJIS = '🐣', '🐥', '🐓', '🦚'];
   const BACKGROUND_EMOJIS = ['🌿', '🌤️', '🌈', '🌌'];
 
   function determineStage(steps) {

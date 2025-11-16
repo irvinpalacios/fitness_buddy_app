@@ -7,6 +7,7 @@ const pet = {
   stepsToday: 0,
   evolutionStage: 0,
   name: DEFAULT_NAME,
+  lastUpdatedDate: '',
 };
 
 // LocalStorage key allows future schema migrations if needed.
@@ -29,6 +30,9 @@ function loadPet() {
     }
     if (!pet.name) {
       pet.name = DEFAULT_NAME;
+    }
+    if (!pet.lastUpdatedDate) {
+      pet.lastUpdatedDate = '';
     }
   } catch (error) {
     console.warn('Unable to parse saved pet state', error);
@@ -131,6 +135,20 @@ function processStepsFromURL() {
   }
 }
 
+function handleDailyReset() {
+  const today = new Date().toISOString().split('T')[0];
+
+  if (pet.lastUpdatedDate && pet.lastUpdatedDate !== today) {
+    pet.exp = 0;
+    pet.level = 1;
+    pet.stepsToday = 0;
+    pet.evolutionStage = 0;
+  }
+
+  pet.lastUpdatedDate = today;
+  savePet();
+}
+
 /**
  * Initialize DOM references and start application flow.
  */
@@ -147,6 +165,7 @@ function init() {
   elements.nextLevelText = document.getElementById('nextLevelText');
 
   loadPet();
+  handleDailyReset();
   updateLevelAndEvolution();
   updateUI();
   processStepsFromURL();

@@ -23,7 +23,10 @@
   function syncStepsFromUrl() {
     const parsed = parseStepsFromUrl();
     const state = GameState.getPetState();
+    BattleModule.ensureDefaults(state);
+    BattleModule.syncBattleProgress(state);
     if (!parsed) {
+      GameState.savePetState(state);
       return state;
     }
 
@@ -36,6 +39,8 @@
     state.exp += delta;
 
     PetModule.updateEvolutionStage(state);
+
+    BattleModule.updateAfterStepsChange(state, previousSteps);
 
     if (count > 0 && hadNoStepsYet) {
       state.streakCount = (state.streakCount || 0) + 1;

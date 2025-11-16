@@ -37,6 +37,10 @@ button {
   cursor: pointer;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 .app-shell {
   max-width: 960px;
   margin: 0 auto;

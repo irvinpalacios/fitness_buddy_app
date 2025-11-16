@@ -3,9 +3,13 @@
 (function () {
   let currentState = null;
   let currentTab = 'home';
+  let battleScreenVisible = false;
 
   function setActiveTab(tab) {
     currentTab = tab;
+    if (tab !== 'home') {
+      battleScreenVisible = false;
+    }
     document.querySelectorAll('.tab-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.tab === tab);
     });
@@ -22,13 +26,15 @@
         break;
       case 'home':
       default:
-        UI.renderHome(currentState);
+        UI.renderHome(currentState, { battleScreenVisible });
         break;
     }
   }
 
   function refreshStateFromStorage() {
     currentState = GameState.getPetState();
+    BattleModule.ensureDefaults(currentState);
+    BattleModule.syncBattleProgress(currentState);
     PetModule.updateEvolutionStage(currentState);
     GameState.savePetState(currentState);
   }
@@ -49,6 +55,8 @@
     if (syncedState) {
       currentState = syncedState;
     }
+    BattleModule.ensureDefaults(currentState);
+    BattleModule.syncBattleProgress(currentState);
     PetModule.updateEvolutionStage(currentState);
     GameState.savePetState(currentState);
 
@@ -58,6 +66,8 @@
 
   document.addEventListener('stepsSynced', function (event) {
     currentState = event.detail && event.detail.state ? event.detail.state : GameState.getPetState();
+    BattleModule.ensureDefaults(currentState);
+    BattleModule.syncBattleProgress(currentState);
     renderCurrentTab();
   });
 
@@ -72,6 +82,24 @@
     currentState = PetModule.setPetSet(key);
     PetModule.updateEvolutionStage(currentState);
     GameState.savePetState(currentState);
+    renderCurrentTab();
+  });
+
+  document.addEventListener('startBattle', function () {
+    if (!currentState) return;
+    currentState = BattleModule.startBattle(currentState);
+    GameState.savePetState(currentState);
+    battleScreenVisible = true;
+    renderCurrentTab();
+  });
+
+  document.addEventListener('openBattleScreen', function () {
+    battleScreenVisible = true;
+    renderCurrentTab();
+  });
+
+  document.addEventListener('closeBattleScreen', function () {
+    battleScreenVisible = false;
     renderCurrentTab();
   });
 

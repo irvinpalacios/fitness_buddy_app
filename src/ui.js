@@ -3,8 +3,9 @@
 (function () {
   const tabContent = document.getElementById('tab-content');
 
-  function renderHome(state) {
-    tabContent.innerHTML = HomeComponent.homeTemplate(state);
+  function renderHome(state, options = {}) {
+    tabContent.innerHTML = HomeComponent.homeTemplate(state, options);
+    HomeComponent.bindEvents(state, options);
   }
 
   function renderStats(state) {

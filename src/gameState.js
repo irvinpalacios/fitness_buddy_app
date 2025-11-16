@@ -11,6 +11,10 @@
     return {
       name: 'Sprout',
       stepsToday: 0,
+      battleAvailable: false,
+      stepsAtBattleStart: null,
+      battleStepRequirement: 300,
+      stepsRemaining: 300,
       exp: 0,
       evolutionStage: 0,
       lastUpdatedDate: todayISO(),
@@ -61,6 +65,10 @@
     }
 
     state.stepsToday = 0;
+    state.battleAvailable = false;
+    state.stepsAtBattleStart = null;
+    state.battleStepRequirement = 300;
+    state.stepsRemaining = state.battleStepRequirement;
     state.lastUpdatedDate = today;
     return state;
   }

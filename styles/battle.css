@@ -6,3 +6,95 @@
   border: 2px dashed rgba(71, 56, 56, 0.2);
   color: var(--color-muted);
 }
+
+.battle-ready-card {
+  margin-top: 1.5rem;
+  gap: 0.75rem;
+}
+
+.battle-meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.battle-meter-bar,
+.battle-progress-bar {
+  width: 100%;
+  height: 14px;
+  border-radius: var(--radius-medium);
+  background: var(--color-progress-bg);
+  overflow: hidden;
+}
+
+.battle-meter-fill,
+.battle-progress-fill {
+  height: 100%;
+  background: var(--color-progress-fill);
+}
+
+.battle-meter-text,
+.battle-progress-text {
+  font-weight: 600;
+  margin: 0.75rem 0 0.35rem;
+}
+
+.battle-progress-text {
+  text-align: center;
+}
+
+.battle-meter-help {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.battle-button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-small);
+  font-weight: 600;
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.battle-button--secondary {
+  background: transparent;
+  border: 2px solid var(--color-accent-dark);
+  color: var(--color-accent-dark);
+  margin-top: 0.75rem;
+}
+
+.battle-screen {
+  margin-top: 1.5rem;
+  background: var(--color-surface);
+  padding: 1.5rem;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-soft);
+}
+
+.battle-screen-header h2 {
+  margin: 0 0 0.35rem;
+}
+
+.battle-screen-header p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.battle-status-text {
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+}
+
+.battle-return-btn {
+  margin-top: 1.25rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-small);
+  font-weight: 600;
+  border: 2px solid var(--color-progress-fill);
+  background: transparent;
+  color: var(--color-progress-fill);
+}

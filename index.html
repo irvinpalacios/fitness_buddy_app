@@ -1,69 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StepPet</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="app-shell">
-      <header>
-        <h1>StepPet</h1>
-        <p class="tagline">Walk to grow your virtual buddy.</p>
-      </header>
+<head>
+  <meta charset="UTF-8">
+  <title>PetStep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>PetStep</h1>
+      <p>Bring your virtual pet to life with your daily steps!</p>
+    </header>
 
-      <section class="pet-card" aria-live="polite">
-        <div id="petEmoji" class="pet-emoji" role="img" aria-label="Pet">🐣</div>
-        <p class="pet-name">Name: <span id="petNameDisplay">My Pet</span></p>
-        <div class="stat-grid">
-          <div class="stat-item">
-            <span class="label">Level</span>
-            <span id="level" class="value">1</span>
-          </div>
-          <div class="stat-item">
-            <span class="label">Steps Today</span>
-            <span id="stepsToday" class="value">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="label">EXP (today)</span>
-            <span id="exp" class="value">0</span>
-          </div>
-        </div>
-      </section>
+    <section class="pet-display">
+      <div id="petEmoji" class="pet-emoji">🐣</div>
+      <div>
+        <div id="petNameDisplay" class="pet-name">Your Pet</div>
+        <div id="message" class="pet-message">Start walking to evolve your pet!</div>
+      </div>
+    </section>
 
-      <section class="name-section">
-        <label for="petNameInput">Rename your buddy</label>
-        <div class="name-input-row">
-          <input
-            id="petNameInput"
-            type="text"
-            maxlength="24"
-            placeholder="Enter a pet name"
-            aria-label="Pet name"
-          />
-          <button id="saveNameBtn" type="button">Save Name</button>
-        </div>
-      </section>
+    <section class="stats">
+      <div class="stat-card">
+        <span class="label">Steps Today</span>
+        <strong id="stepsToday">0</strong>
+      </div>
+      <div class="stat-card">
+        <span class="label">EXP</span>
+        <strong id="exp">0</strong>
+      </div>
+      <div class="stat-card">
+        <span class="label">Evolution Stage</span>
+        <strong id="evolutionStage">Stage 0 (🐣)</strong>
+      </div>
+      <div class="stat-card">
+        <span class="label">Streak</span>
+        <strong id="streakCount">Streak: 0 days</strong>
+      </div>
+    </section>
 
-      <section class="progress-section">
-        <label for="expBar">Steps to next level</label>
-        <div class="progress-bar">
-          <div id="expBar" class="progress-fill" style="width: 0%"></div>
-        </div>
-        <p id="nextLevelText" class="next-level-text">
-          Next Level: 500 steps remaining
-        </p>
-      </section>
+    <section class="progress-section">
+      <div class="bar-container">
+        <div id="expBar" class="bar-fill" style="width: 0%"></div>
+      </div>
+      <p id="nextEvolutionText">Steps to next evolution: 3000 left</p>
+    </section>
 
-      <section class="message-section">
-        <p id="message" class="message">
-          Your pet grows as you walk. For now, update steps by adding
-          <code>?steps=1234</code> to the URL.
-        </p>
-      </section>
-    </main>
+    <section class="name-section">
+      <label for="petNameInput">Pet Name</label>
+      <div class="name-input">
+        <input type="text" id="petNameInput" placeholder="Enter a name">
+        <button id="saveNameBtn">Save Name</button>
+      </div>
+    </section>
 
-    <script src="app.js" defer></script>
-  </body>
+    <section class="summary-card" id="summaryCard">
+      <div id="summaryCardPet" class="summary-pet">🐣</div>
+      <div class="summary-info">
+        <div id="summaryCardName" class="summary-name">Your Pet</div>
+        <div id="summaryCardSteps" class="summary-steps">Steps: 0</div>
+        <div id="summaryCardStage" class="summary-stage">Stage 0 (🐣)</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
 </html>

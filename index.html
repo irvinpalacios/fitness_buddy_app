@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StepPet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header>
+        <h1>StepPet</h1>
+        <p class="tagline">Walk to grow your virtual buddy.</p>
+      </header>
+
+      <section class="pet-card" aria-live="polite">
+        <div id="petEmoji" class="pet-emoji" role="img" aria-label="Pet">🐣</div>
+        <p class="pet-name">Name: <span id="petNameDisplay">My Pet</span></p>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="label">Level</span>
+            <span id="level" class="value">1</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Steps Today</span>
+            <span id="stepsToday" class="value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">EXP</span>
+            <span id="exp" class="value">0</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="name-section">
+        <label for="petNameInput">Rename your buddy</label>
+        <div class="name-input-row">
+          <input
+            id="petNameInput"
+            type="text"
+            maxlength="24"
+            placeholder="Enter a pet name"
+            aria-label="Pet name"
+          />
+          <button id="saveNameBtn" type="button">Save Name</button>
+        </div>
+      </section>
+
+      <section class="progress-section">
+        <label for="expBar">EXP to next level</label>
+        <div class="progress-bar">
+          <div id="expBar" class="progress-fill" style="width: 0%"></div>
+        </div>
+        <p id="nextLevelText" class="next-level-text">Next Level: 500 EXP remaining</p>
+      </section>
+
+      <section class="message-section">
+        <p id="message" class="message">Take steps and refresh with ?steps=number to feed your pet!</p>
+      </section>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

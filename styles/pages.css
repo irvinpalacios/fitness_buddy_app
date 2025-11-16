@@ -1,0 +1,123 @@
+.home-hero {
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  position: relative;
+}
+
+.home-hero .background {
+  border-radius: var(--radius-large);
+  overflow: hidden;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  padding: 1rem;
+  border-radius: var(--radius-medium);
+  background: #fff;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+}
+
+.customize-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.customize-form input {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-medium);
+  border: none;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(71, 56, 56, 0.08);
+}
+
+.customize-form button {
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.85rem;
+  border-radius: var(--radius-medium);
+  font-weight: 600;
+  box-shadow: var(--shadow-soft);
+}
+
+.pet-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.pet-preview {
+  background: #fff;
+  border-radius: var(--radius-medium);
+  padding: 0.75rem;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(71, 56, 56, 0.05);
+}
+
+.pet-preview .pet-emoji {
+  font-size: 2.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.pet-preview-note {
+  margin-top: 0.25rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.pet-set-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pet-set-option {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.9rem;
+  border-radius: var(--radius-medium);
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(71, 56, 56, 0.08);
+  cursor: pointer;
+}
+
+.pet-set-option input {
+  margin-top: 0.35rem;
+}
+
+.pet-set-body {
+  flex: 1;
+}
+
+.pet-set-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.pet-set-name {
+  font-weight: 700;
+}
+
+.pet-set-tag {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.pet-set-desc {
+  margin: 0.35rem 0 0.65rem;
+  color: var(--color-muted);
+}
+
+.pet-set-emoji-row {
+  display: flex;
+  gap: 0.35rem;
+  font-size: 1.6rem;
+}

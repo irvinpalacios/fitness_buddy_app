@@ -1,0 +1,8 @@
+/* Placeholder battle styles for future MVPs */
+.battle-log-placeholder {
+  padding: 1rem;
+  text-align: center;
+  border-radius: var(--radius-medium);
+  border: 2px dashed rgba(71, 56, 56, 0.2);
+  color: var(--color-muted);
+}

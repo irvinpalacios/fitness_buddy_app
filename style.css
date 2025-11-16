@@ -1,0 +1,115 @@
+:root {
+  --bg: #f9fbff;
+  --card: #ffffff;
+  --accent: #8b5cf6;
+  --accent-light: #c4b5fd;
+  --text: #1f2933;
+  --muted: #6b7280;
+  font-family: 'SF Pro Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 1.5rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+main.app-shell {
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.tagline {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+}
+
+.pet-card,
+.progress-section,
+.message-section,
+.info-section {
+  background: var(--card);
+  padding: 1.25rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.pet-emoji {
+  font-size: 4rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.stat-item {
+  background: #f4f4ff;
+  border-radius: 16px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: 0.2rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  border-radius: 999px;
+  background: #ebedf5;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.message {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.info-section ol {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.9rem;
+  }
+}

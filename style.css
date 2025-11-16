@@ -40,7 +40,7 @@ header h1 {
 .pet-card,
 .progress-section,
 .message-section,
-.info-section {
+.name-section {
   background: var(--card);
   padding: 1.25rem;
   border-radius: 20px;
@@ -51,6 +51,12 @@ header h1 {
   font-size: 4rem;
   text-align: center;
   margin-bottom: 1rem;
+}
+
+.pet-name {
+  text-align: center;
+  margin: 0 0 1rem;
+  font-weight: 600;
 }
 
 .stat-grid {
@@ -99,9 +105,38 @@ header h1 {
   font-size: 1rem;
 }
 
-.info-section ol {
-  margin: 0;
-  padding-left: 1.1rem;
+.name-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+#petNameInput {
+  flex: 1;
+  border: 1px solid #dcdcec;
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+}
+
+#saveNameBtn {
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#saveNameBtn:active {
+  transform: scale(0.98);
+}
+
+.next-level-text {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--muted);
 }
 
 @media (max-width: 480px) {

@@ -15,6 +15,7 @@
 
       <section class="pet-card" aria-live="polite">
         <div id="petEmoji" class="pet-emoji" role="img" aria-label="Pet">🐣</div>
+        <p class="pet-name">Name: <span id="petNameDisplay">My Pet</span></p>
         <div class="stat-grid">
           <div class="stat-item">
             <span class="label">Level</span>
@@ -31,24 +32,30 @@
         </div>
       </section>
 
+      <section class="name-section">
+        <label for="petNameInput">Rename your buddy</label>
+        <div class="name-input-row">
+          <input
+            id="petNameInput"
+            type="text"
+            maxlength="24"
+            placeholder="Enter a pet name"
+            aria-label="Pet name"
+          />
+          <button id="saveNameBtn" type="button">Save Name</button>
+        </div>
+      </section>
+
       <section class="progress-section">
         <label for="expBar">EXP to next level</label>
         <div class="progress-bar">
           <div id="expBar" class="progress-fill" style="width: 0%"></div>
         </div>
+        <p id="nextLevelText" class="next-level-text">Next Level: 500 EXP remaining</p>
       </section>
 
       <section class="message-section">
         <p id="message" class="message">Take steps and refresh with ?steps=number to feed your pet!</p>
-      </section>
-
-      <section class="info-section">
-        <h2>How it works</h2>
-        <ol>
-          <li>Connect your Apple Health Shortcut to get today’s steps.</li>
-          <li>Open StepPet with the URL parameter: <code>?steps=YOUR_STEPS</code>.</li>
-          <li>Watch your pet level up and evolve over time.</li>
-        </ol>
       </section>
     </main>
 

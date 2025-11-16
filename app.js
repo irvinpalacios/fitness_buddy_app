@@ -1,9 +1,12 @@
 // StepPet core data model stored in memory and persisted via localStorage.
+const DEFAULT_NAME = 'My Pet';
+
 const pet = {
   exp: 0,
   level: 1,
   stepsToday: 0,
   evolutionStage: 0,
+  name: DEFAULT_NAME,
 };
 
 // LocalStorage key allows future schema migrations if needed.
@@ -23,6 +26,9 @@ function loadPet() {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (saved) {
       Object.assign(pet, saved);
+    }
+    if (!pet.name) {
+      pet.name = DEFAULT_NAME;
     }
   } catch (error) {
     console.warn('Unable to parse saved pet state', error);
@@ -71,12 +77,18 @@ function updateLevelAndEvolution() {
  */
 function updateUI() {
   const progressToNextLevel = (pet.exp % 500) / 5; // convert to percentage
+  const expNeeded = Math.max(0, pet.level * 500 - pet.exp);
 
   elements.petEmoji.textContent = EVOLUTION_EMOJIS[pet.evolutionStage] || '🐣';
   elements.level.textContent = pet.level;
   elements.stepsToday.textContent = pet.stepsToday.toLocaleString();
   elements.exp.textContent = pet.exp.toLocaleString();
   elements.expBar.style.width = `${progressToNextLevel}%`;
+  elements.petNameDisplay.textContent = pet.name;
+  if (elements.petNameInput && document.activeElement !== elements.petNameInput) {
+    elements.petNameInput.value = pet.name;
+  }
+  elements.nextLevelText.textContent = `Next Level: ${expNeeded.toLocaleString()} EXP remaining`;
 }
 
 /**
@@ -84,6 +96,14 @@ function updateUI() {
  */
 function setMessage(text) {
   elements.message.textContent = text;
+}
+
+function handleSaveName() {
+  const desiredName = elements.petNameInput.value.trim();
+  pet.name = desiredName || DEFAULT_NAME;
+  savePet();
+  updateUI();
+  setMessage('Pet name saved!');
 }
 
 /**
@@ -113,11 +133,19 @@ function init() {
   elements.exp = document.getElementById('exp');
   elements.expBar = document.getElementById('expBar');
   elements.message = document.getElementById('message');
+  elements.petNameDisplay = document.getElementById('petNameDisplay');
+  elements.petNameInput = document.getElementById('petNameInput');
+  elements.saveNameBtn = document.getElementById('saveNameBtn');
+  elements.nextLevelText = document.getElementById('nextLevelText');
 
   loadPet();
   updateLevelAndEvolution();
   updateUI();
   processStepsFromURL();
+
+  if (elements.saveNameBtn) {
+    elements.saveNameBtn.addEventListener('click', handleSaveName);
+  }
 }
 
 // Ensure initialization occurs only after DOM is ready.

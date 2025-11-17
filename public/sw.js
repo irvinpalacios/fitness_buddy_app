@@ -1,4 +1,5 @@
-const CACHE_NAME = 'steppet-cache-v2';
+const CACHE_VERSION = 'v3-20240505';
+const CACHE_NAME = `steppet-cache-${CACHE_VERSION}`;
 const PRECACHE_URLS = [
   '/',
   '/manifest.webmanifest',

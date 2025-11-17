@@ -45,17 +45,8 @@ button {
   max-width: 960px;
   margin: 0 auto;
   padding: 1.5rem;
-}
-
-.app-header {
-  text-align: center;
-  background: var(--color-surface);
-  padding: 1.25rem;
-  border-radius: var(--radius-large);
-  box-shadow: var(--shadow-soft);
-}
-
-.tagline {
-  color: var(--color-muted);
-  margin: 0.35rem 0 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }

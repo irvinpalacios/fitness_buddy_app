@@ -1,13 +1,54 @@
 // components/home.js
 // Generates markup for the Home tab.
 (function () {
+  const STAGE_TITLES = ['Egg', 'Hatchling', 'Companion', 'Mythic'];
+  const STAGE_DESCRIPTIONS = [
+    'A mysterious egg waiting to hatch.',
+    'Each step helps this buddy break out of its shell.',
+    'Your partner soaks up every walk you take.',
+    'A legendary friend forged by countless steps.',
+  ];
+
+  function formatNumber(value) {
+    return (value || 0).toLocaleString('en-US');
+  }
+
+  function getStageTitle(stage) {
+    if (typeof STAGE_TITLES[stage] !== 'undefined') {
+      return STAGE_TITLES[stage];
+    }
+    return `Stage ${stage + 1}`;
+  }
+
+  function getStageDescription(stage, fallback) {
+    if (typeof STAGE_DESCRIPTIONS[stage] !== 'undefined') {
+      return STAGE_DESCRIPTIONS[stage];
+    }
+    return fallback || '';
+  }
+
   function homeTemplate(state, options = {}) {
     const stepsToNext = PetModule.getStepsToNextStage(state);
     const progressPercent = PetModule.getProgressPercent(state).toFixed(0);
-    const stageLabel = `Stage ${state.evolutionStage}`;
+    const stageTitle = getStageTitle(state.evolutionStage);
     const petSet = PetModule.getPetSetInfo(state.petSet);
     const petEmoji = PetModule.getPetAsset(state.evolutionStage, petSet.key);
-    const bgEmoji = PetModule.getBackgroundAsset(state.evolutionStage, petSet.key);
+    const nextStageEmoji = PetModule.getPetAsset(
+      Math.min(state.evolutionStage + 1, PetModule.STAGE_RULES.length - 1),
+      petSet.key
+    );
+    const heroDescription = getStageDescription(state.evolutionStage, petSet.description);
+    const levelLabel = `Level ${state.evolutionStage + 1}`;
+    const totalStepsTarget =
+      state.evolutionStage < PetModule.STAGE_RULES.length - 1
+        ? PetModule.STAGE_RULES[state.evolutionStage + 1].min
+        : null;
+    const levelGoalText = totalStepsTarget ? `${formatNumber(totalStepsTarget)} total steps` : 'Max level reached';
+    const nextStageTitle = getStageTitle(Math.min(state.evolutionStage + 1, STAGE_TITLES.length - 1));
+    const nextStageText =
+      totalStepsTarget !== null
+        ? `${nextStageTitle} · ${formatNumber(totalStepsTarget)} total steps`
+        : 'Your companion reached the final form';
     const milestoneTarget = BattleModule.getMilestoneTarget();
     const battleRequirement = BattleModule.getBattleRequirement(state);
     const readySteps = BattleModule.getStepsTowardNextBattle(state);
@@ -45,30 +86,51 @@
 
     return `
       <div id="home-main-view" class="${homeViewClass}">
-        <section class="pet-stage-card home-hero">
-          <div class="pet-visual">
-            <div class="background-emoji" aria-hidden="true">${bgEmoji}</div>
-            <div class="pet-emoji" role="img" aria-label="Pet stage ${state.evolutionStage}">${petEmoji}</div>
-            <div class="streak-pill">🔥 Streak: ${state.streakCount} days</div>
-            <div class="progress-wrapper">
-              <div class="progress-bar">
-                <div class="progress-fill" style="width:${progressPercent}%;"></div>
-              </div>
-              <div class="progress-text">
-                ${stageLabel} · ${progressPercent}% to next form · ${stepsToNext} steps left
-              </div>
-            </div>
+        <section class="home-card hero-card">
+          <div class="hero-text">
+            <p class="hero-stage">${stageTitle}</p>
+            <h2 class="hero-name">${state.name}</h2>
+            <p class="hero-desc">${heroDescription}</p>
+            <div class="hero-lineage">${petSet.label}</div>
+            <div class="hero-streak">🔥 ${state.streakCount} day streak</div>
           </div>
-          <div class="summary-card">
-            <h2>Today's Summary</h2>
-            <p><strong>Pet:</strong> ${state.name}</p>
-            <p><strong>Lineage:</strong> ${petSet.label}</p>
-            <p><strong>Steps today:</strong> ${state.stepsToday}</p>
-            <p><strong>Total EXP:</strong> ${state.exp}</p>
-            <p><strong>Steps to evolve:</strong> ${stepsToNext}</p>
+          <div class="hero-egg" role="img" aria-label="Current pet stage">
+            <span>${petEmoji}</span>
           </div>
         </section>
-        <section class="summary-card battle-ready-card" aria-live="polite">
+
+        <section class="home-card steps-card">
+          <div class="steps-header">
+            <div>
+              <p class="card-label">Today's Steps</p>
+              <p class="steps-value">${formatNumber(state.stepsToday)}</p>
+            </div>
+            <div class="steps-egg" aria-hidden="true">🥾</div>
+          </div>
+          <p class="exp-earned">${formatNumber(state.exp)} EXP earned</p>
+          <div class="level-meta">
+            <p class="card-label">${levelLabel}</p>
+            <span>${levelGoalText}</span>
+          </div>
+          <div class="level-progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
+            <div class="level-progress-fill" style="width:${progressPercent}%"></div>
+          </div>
+          <p class="progress-caption">${progressPercent}% · ${formatNumber(stepsToNext)} steps to evolve</p>
+        </section>
+
+        <section class="home-card next-evolution-card">
+          <div>
+            <p class="card-label">Next Evolution</p>
+            <h3>${nextStageTitle}</h3>
+            <p class="next-stage-text">${nextStageText}</p>
+            <div class="steps-pill">${formatNumber(stepsToNext)} steps remaining</div>
+          </div>
+          <div class="next-egg" role="img" aria-label="Next pet stage">
+            <span>${nextStageEmoji}</span>
+          </div>
+        </section>
+
+        <section class="home-card battle-ready-card" aria-live="polite">
           <div class="battle-meter-header">
             <h2>Battle Ready Meter</h2>
             <span>${readyPercent}%</span>

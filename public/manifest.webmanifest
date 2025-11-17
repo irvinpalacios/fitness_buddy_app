@@ -1,0 +1,9 @@
+{
+  "name": "StepPet Fitness Buddy 🐾",
+  "short_name": "StepPet 🐾",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1c1f2b",
+  "theme_color": "#56c791",
+  "description": "Keep your cozy companion active with step-based battles and customization."
+}

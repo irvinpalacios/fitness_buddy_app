@@ -4,6 +4,18 @@
   let currentState = null;
   let currentTab = 'home';
   let battleScreenVisible = false;
+  let battleTimerInterval = null;
+  let lastTimerSeconds = null;
+
+  function battleStateSnapshot(state) {
+    if (!state) return '';
+    return JSON.stringify({
+      stepsAtBattleStart: state.stepsAtBattleStart,
+      stepsRemaining: state.stepsRemaining,
+      battleResult: state.battleResult,
+      lastBattleRemaining: state.lastBattleRemaining,
+    });
+  }
 
   function setActiveTab(tab) {
     currentTab = tab;
@@ -62,6 +74,25 @@
 
     initTabs();
     renderCurrentTab();
+    startBattleTicker();
+  }
+
+  function startBattleTicker() {
+    if (battleTimerInterval) return;
+    battleTimerInterval = setInterval(() => {
+      if (!currentState) return;
+      const before = battleStateSnapshot(currentState);
+      BattleModule.syncBattleProgress(currentState);
+      const after = battleStateSnapshot(currentState);
+      const battleActive = BattleModule.isBattleInProgress(currentState);
+      const timerSeconds = battleActive ? Math.ceil(BattleModule.getBattleTimeRemaining(currentState) / 1000) : null;
+      const timerChanged = timerSeconds !== lastTimerSeconds;
+      if (before !== after || timerChanged) {
+        GameState.savePetState(currentState);
+        renderCurrentTab();
+      }
+      lastTimerSeconds = timerSeconds;
+    }, 1000);
   }
 
   document.addEventListener('stepsSynced', function (event) {
@@ -100,6 +131,11 @@
 
   document.addEventListener('closeBattleScreen', function () {
     battleScreenVisible = false;
+    if (currentState && currentState.battleResult) {
+      currentState.battleResult = null;
+      currentState.lastBattleRemaining = null;
+      GameState.savePetState(currentState);
+    }
     renderCurrentTab();
   });
 

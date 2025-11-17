@@ -15,6 +15,10 @@
       stepsAtBattleStart: null,
       battleStepRequirement: 300,
       stepsRemaining: 300,
+      battleStartTime: null,
+      battleDurationMs: 60 * 60 * 1000,
+      battleResult: null,
+      lastBattleRemaining: null,
       exp: 0,
       evolutionStage: 0,
       lastUpdatedDate: todayISO(),
@@ -69,6 +73,9 @@
     state.stepsAtBattleStart = null;
     state.battleStepRequirement = 300;
     state.stepsRemaining = state.battleStepRequirement;
+    state.battleStartTime = null;
+    state.battleResult = null;
+    state.lastBattleRemaining = null;
     state.lastUpdatedDate = today;
     return state;
   }

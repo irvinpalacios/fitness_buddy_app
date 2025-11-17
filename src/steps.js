@@ -41,6 +41,7 @@
     PetModule.updateEvolutionStage(state);
 
     BattleModule.updateAfterStepsChange(state, previousSteps);
+    BattleModule.syncBattleProgress(state);
 
     if (count > 0 && hadNoStepsYet) {
       state.streakCount = (state.streakCount || 0) + 1;

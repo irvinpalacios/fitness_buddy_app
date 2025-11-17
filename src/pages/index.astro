@@ -24,10 +24,7 @@ const title = 'StepPet';
   </head>
   <body>
     <div class="app-shell">
-      <header class="app-header">
-        <h1>StepPet</h1>
-        <p class="tagline">Take cozy steps with your evolving companion.</p>
-      </header>
+      <main id="tab-content" class="tab-content" aria-live="polite"></main>
 
       <nav class="tab-nav" aria-label="Primary">
         <button class="tab-btn active" data-tab="home">
@@ -43,8 +40,6 @@ const title = 'StepPet';
           <span>Customize</span>
         </button>
       </nav>
-
-      <main id="tab-content" class="tab-content" aria-live="polite"></main>
     </div>
 
     <script src="/src/gameState.js" is:inline></script>

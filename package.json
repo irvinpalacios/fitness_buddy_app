@@ -1,0 +1,17 @@
+{
+  "name": "fitness-buddy-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/netlify": "^5.0.3",
+    "@vite-pwa/astro": "^0.4.0",
+    "astro": "^4.8.6"
+  }
+}

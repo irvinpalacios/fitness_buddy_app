@@ -1,0 +1,53 @@
+---
+const metaDescription = 'StepPet keeps your cozy walking companion growing, tracking your steps, streaks, and battles.';
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StepPet</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/pet.css" />
+    <link rel="stylesheet" href="/styles/pages.css" />
+    <link rel="stylesheet" href="/styles/battle.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <h1>StepPet</h1>
+        <p class="tagline">Take cozy steps with your evolving companion.</p>
+      </header>
+
+      <nav class="tab-nav" aria-label="Primary">
+        <button class="tab-btn active" data-tab="home">
+          <span class="tab-emoji" aria-hidden="true">🏠</span>
+          <span>Home</span>
+        </button>
+        <button class="tab-btn" data-tab="stats">
+          <span class="tab-emoji" aria-hidden="true">📊</span>
+          <span>Stats</span>
+        </button>
+        <button class="tab-btn" data-tab="customize">
+          <span class="tab-emoji" aria-hidden="true">🎨</span>
+          <span>Customize</span>
+        </button>
+      </nav>
+
+      <main id="tab-content" class="tab-content" aria-live="polite"></main>
+    </div>
+
+    <script type="module" src="/scripts/gameState.js"></script>
+    <script type="module" src="/scripts/pet.js"></script>
+    <script type="module" src="/scripts/steps.js"></script>
+    <script type="module" src="/scripts/battle.js"></script>
+    <script type="module" src="/scripts/components/home.js"></script>
+    <script type="module" src="/scripts/components/profile.js"></script>
+    <script type="module" src="/scripts/components/battleLog.js"></script>
+    <script type="module" src="/scripts/ui.js"></script>
+    <script type="module" src="/scripts/main.js"></script>
+  </body>
+</html>

@@ -28,14 +28,14 @@
       label: 'Bamboo Guardians',
       theme: 'Zen focus',
       description: 'Calm panda companions who thrive with mindful steps.',
-      pets: ['🎍', '🐼', '🐻', '🐲'],
+      pets: ['🎍', '🐻', '🐼', '🐲'],
       backgrounds: ['🎋', '🏯', '🌸', '🌠'],
     },
     dusk: {
       label: 'Dusk Foragers',
       theme: 'Moonlit mischief',
       description: 'Playful raccoon pals that sparkle brighter after each walk.',
-      pets: ['🍂', '🦝', '🦊', '🌌'],
+      pets: ['🍂', '🦝', '🦊', '🐺'],
       backgrounds: ['🌙', '🌌', '🏙️', '✨'],
     },
   };

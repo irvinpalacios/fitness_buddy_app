@@ -33,6 +33,7 @@
     const stageTitle = getStageTitle(state.evolutionStage);
     const petSet = PetModule.getPetSetInfo(state.petSet);
     const petEmoji = PetModule.getPetAsset(state.evolutionStage, petSet.key);
+    const petBackground = PetModule.getBackgroundAsset(state.evolutionStage, petSet.key);
     const nextStageEmoji = PetModule.getPetAsset(
       Math.min(state.evolutionStage + 1, PetModule.STAGE_RULES.length - 1),
       petSet.key
@@ -149,6 +150,12 @@
         <div class="battle-screen-header">
           <h2>${battleHeading}</h2>
           <p>${battleIntroText}</p>
+        </div>
+        <div class="battle-pet-showcase" aria-label="Your pet companion">
+          <div class="pet-visual battle-pet-visual">
+            <div class="background-emoji" aria-hidden="true">${petBackground}</div>
+            <div class="pet-emoji" role="img" aria-label="Current pet stage">${petEmoji}</div>
+          </div>
         </div>
         <p class="battle-status-text">${battleStatusText}</p>
         <p id="battle-timer-text" class="battle-timer">Time Remaining: ${battleTimerText}</p>

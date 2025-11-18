@@ -83,6 +83,20 @@
   color: var(--color-muted);
 }
 
+.battle-pet-showcase {
+  margin: 1rem 0 1.5rem;
+}
+
+.battle-pet-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.battle-pet-visual .pet-visual {
+  width: 100%;
+  max-width: 320px;
+}
+
 .battle-status-text {
   font-weight: 600;
   margin: 1rem 0 0.5rem;
